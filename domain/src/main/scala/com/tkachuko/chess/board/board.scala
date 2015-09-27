@@ -20,7 +20,23 @@ package object board {
 
   case class Board(cells: Cells) {
 
+    lazy val height = cells.length
+
+    lazy val width = cells(0).length
+
     def put(figure: ChessFigure, location: Location): Unit = cells.put(figure, location)
+
+    def clear = Board(height, width)
+
+    def view = {
+      val figures = for {
+        row <- 0 until height
+        column <- 0 until width
+        figure <- cells(row)(column)
+      } yield (Location(row, column), figure)
+
+      BoardView(height, width, figures.toMap)
+    }
   }
 
   object Board {
@@ -29,5 +45,7 @@ package object board {
       Array.tabulate(rows, columns) { (row, column) => None }
     )
   }
+
+  case class BoardView(height: Int, width: Int, figures: Map[Location, ChessFigure])
 
 }

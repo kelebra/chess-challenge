@@ -1,7 +1,7 @@
 package com.tkachuko.chess.board
 
 import com.tkachuko.chess.Location
-import com.tkachuko.chess.figures.Rook
+import com.tkachuko.chess.figures._
 import org.scalatest.{Matchers, WordSpec}
 
 class BoardSpec extends WordSpec with Matchers {
@@ -25,6 +25,27 @@ class BoardSpec extends WordSpec with Matchers {
       intercept[IllegalStateException] {
         board.put(Rook, Location(0, 0))
       }
+    }
+
+    "be corrected to correct board view" in {
+
+      val board = Board(2, 2)
+      board.put(King, Location(0, 0))
+      val view = board.view
+
+      view should have(
+        'height(2),
+        'width(2),
+        'figures(Map(Location(0, 0) -> King))
+      )
+    }
+
+    "have no figures on board when cleared" in {
+
+      val board = Board(2, 2)
+      board.put(King, Location(0, 0))
+
+      board.clear.cells.find(_.exists(_.isDefined)) shouldBe None
     }
   }
 
