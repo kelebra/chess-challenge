@@ -13,7 +13,7 @@ class BoardSpec extends WordSpec with Matchers {
       val board = Board(2, 2)
       board.put(Rook, Location(0, 0))
 
-      val cellFigure = board.cells(0)(0).figure
+      val cellFigure = board.cells(0)(0)
       cellFigure shouldBe 'defined
       cellFigure shouldBe Some(Rook)
     }

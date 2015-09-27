@@ -4,8 +4,7 @@ import com.tkachuko.chess.figures.ChessFigure
 
 package object board {
 
-  // TODO: Should do something with locations in matrix. Looks stupid as you always have indexes.
-  type Cells = Array[Array[Cell]]
+  type Cells = Array[Array[Option[ChessFigure]]]
 
   implicit class CellsDSL(cells: Cells) {
 
@@ -14,10 +13,8 @@ package object board {
       val column = location.column
       val cellRow = cells(row)
       val cell = cellRow(column)
-      if (cell.isEmpty)
-        cellRow.update(column, cell.copy(figure = Option(figure)))
-      else
-        throw new IllegalStateException(s"Not allowed to overwrite figure in the cell ($location)")
+      if (cell.isEmpty) cellRow.update(column, Option(figure))
+      else throw new IllegalStateException(s"Not allowed to overwrite figure in the cell ($location)")
     }
   }
 
@@ -29,14 +26,8 @@ package object board {
   object Board {
 
     def apply(rows: Int, columns: Int) = new Board(
-      Array.tabulate(rows, columns) { (row, column) => Cell(Location(row, column)) }
+      Array.tabulate(rows, columns) { (row, column) => None }
     )
-  }
-
-  // TODO: probably can be removed for sake of memory efficiency
-  final case class Cell(location: Location, figure: Option[ChessFigure] = None) {
-
-    def isEmpty = figure.isEmpty
   }
 
 }
