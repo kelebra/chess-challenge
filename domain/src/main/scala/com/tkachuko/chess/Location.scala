@@ -21,5 +21,5 @@ final case class Location(row: Int, column: Int) {
 
   def hasDistanceInColumns(other: Location, distance: Int) = abs(column - other.column) == distance
 
-  override def toString = s"Row: $row, column: $column"
+  override def toString = s"($row, $column)"
 }

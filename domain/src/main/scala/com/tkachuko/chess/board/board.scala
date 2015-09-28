@@ -11,7 +11,10 @@ package object board {
                     figures: Map[Location, ChessFigure]) {
 
     def put(figure: ChessFigure, location: Location): Option[Board] =
-      if (freeCells.isEmpty || figures.contains(location)) None
+      if (freeCells.isEmpty ||
+        figures.contains(location) ||
+        conflictsWithExistingFigures(figure, location)
+      ) None
       else Option(
         new Board(
           height,
@@ -20,6 +23,9 @@ package object board {
           figures + (location -> figure)
         )
       )
+
+    def conflictsWithExistingFigures(figure: ChessFigure, location: Location) =
+      figures.keys.exists(figure.canAttack(location))
 
     def view = BoardView(height, width, figures)
   }

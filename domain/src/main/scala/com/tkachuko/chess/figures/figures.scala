@@ -15,9 +15,11 @@ package object figures {
     (from: Location, to: Location) => from.sharesDiagonalWith(to)
   )
 
-  case object King extends ChessFigure('K', (from: Location, to: Location) =>
-    (from.sharesAdjacentColumnWith(to) || from.sharesAdjacentRowWith(to)) ||
-      from.sharesDiagonalWith(to, 1)
+  case object King extends ChessFigure('K', (from: Location, to: Location) => (
+    (from.sharesAdjacentColumnWith(to) && from.sharesRowWith(to)) ||
+      (from.sharesAdjacentRowWith(to) && from.sharesColumnWith(to))
+    ) ||
+    from.sharesDiagonalWith(to, 1)
   )
 
   case object Knight extends ChessFigure('N', (from: Location, to: Location) =>

@@ -35,6 +35,11 @@ class BoardSpec extends WordSpec with Matchers {
 
       updatedBoard shouldBe None
     }
+
+    "allow king to stand with rook in one cell range" in {
+      val board = Board(3, 3)
+      board.put(Rook, Location(2, 1)).flatMap(_.put(King, Location(0, 0))) should be('defined)
+    }
   }
 
 }
