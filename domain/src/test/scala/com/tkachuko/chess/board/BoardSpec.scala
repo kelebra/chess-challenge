@@ -8,44 +8,32 @@ class BoardSpec extends WordSpec with Matchers {
 
   "Board" should {
 
-    "be updated in case if cell is empty" in {
+    "have updated position of figures if figure can be put" in {
 
       val board = Board(2, 2)
-      board.put(Rook, Location(0, 0))
+      val figureLocation = Location(0, 0)
+      val updatedBoard = board.put(Rook, figureLocation)
 
-      val cellFigure = board.cells(0)(0)
-      cellFigure shouldBe 'defined
-      cellFigure shouldBe Some(Rook)
+      updatedBoard.exists(_.figures.contains(figureLocation)) shouldBe true
     }
 
-    "not be updated if cell is not empty" in {
+    "have updated free cells if figure can be put" in {
 
       val board = Board(2, 2)
-      board.put(Rook, Location(0, 0))
-      intercept[IllegalStateException] {
-        board.put(Rook, Location(0, 0))
-      }
+      val figureLocation = Location(0, 0)
+      val updatedBoard = board.put(King, figureLocation)
+
+      updatedBoard.exists(_.freeCells.isEmpty) shouldBe true
     }
 
-    "be corrected to correct board view" in {
+    "not update any values if figure cannot be put" in {
 
       val board = Board(2, 2)
-      board.put(King, Location(0, 0))
-      val view = board.view
+      val figureLocation = Location(0, 0)
+      val updatedBoard = board.put(King, figureLocation).flatMap(_.put(King, figureLocation))
 
-      view should have(
-        'height(2),
-        'width(2),
-        'figures(Map(Location(0, 0) -> King))
-      )
-    }
 
-    "have no figures on board when cleared" in {
-
-      val board = Board(2, 2)
-      board.put(King, Location(0, 0))
-
-      board.clear.cells.find(_.exists(_.isDefined)) shouldBe None
+      updatedBoard shouldBe None
     }
   }
 
