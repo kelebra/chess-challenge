@@ -11,32 +11,29 @@ object Challenge {
                        width: Int): Set[BoardView] =
     placeFiguresOn(figures, List(Board(height, width))).map(_.view)
 
-  private def placeFiguresOn(figures: List[ChessFigure],
-                             acc: List[Board]): Set[Board] =
+  private def placeFiguresOn(figures: List[ChessFigure], acc: List[Board]): Set[Board] =
     figures match {
-      case figure :: remaining =>
-        placeFiguresOn(remaining, placeFigureOn(figure, acc, Set()))
+      case figure :: remaining => placeFiguresOn(remaining, placeFigureOn(figure, acc))
       case Nil => acc.toSet
     }
 
   private def placeFigureOn(figure: ChessFigure,
                             boards: List[Board],
-                            acc: Set[Board]): List[Board] =
+                            acc: Set[Board] = Set()): List[Board] =
     boards match {
       case board :: remaining =>
-        placeFigureOn(figure, remaining, acc ++ placeFigureInFreeCells(figure, board, board.freeCells.toList, List()))
+        placeFigureOn(figure, remaining, acc ++ placeFigureOnFreeCells(figure, board, board.freeCells.toList))
       case Nil => acc.toList
     }
 
-
-  private def placeFigureInFreeCells(figure: ChessFigure,
+  private def placeFigureOnFreeCells(figure: ChessFigure,
                                      board: Board,
                                      freeCells: List[Location],
-                                     acc: List[Board]): List[Board] = {
+                                     acc: List[Board] = List()): List[Board] = {
     freeCells match {
       case freeCell :: remaining =>
         val updatedBoard = board.put(figure, freeCell)
-        placeFigureInFreeCells(figure, board, remaining, acc ::: updatedBoard.toList)
+        placeFigureOnFreeCells(figure, board, remaining, acc ::: updatedBoard.toList)
 
       case Nil => acc
     }

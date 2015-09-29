@@ -16,11 +16,9 @@ package object board {
         conflictsWithExistingFigures(figure, location)
       ) None
       else Option(
-        new Board(
-          height,
-          width,
-          freeCells filterNot { cell => figure.canAttack(location)(cell) || cell == location },
-          figures + (location -> figure)
+        copy(
+          freeCells = freeCells filterNot { cell => figure.canAttack(location)(cell) || cell == location },
+          figures = figures + (location -> figure)
         )
       )
 
