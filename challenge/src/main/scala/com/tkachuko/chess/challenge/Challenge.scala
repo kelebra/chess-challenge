@@ -38,4 +38,11 @@ object Challenge {
       case Nil => acc
     }
   }
+
+  def main(args: Array[String]): Unit = {
+    val started = System.currentTimeMillis()
+    val drawPositions = allDrawPositions(King :: King :: Queen :: Queen :: Bishop :: Bishop :: Knight :: Nil, 7, 7).size
+    println(s"Number of draw positions in challenge: $drawPositions")
+    println(s"Time spent: ${System.currentTimeMillis() - started}")
+  }
 }

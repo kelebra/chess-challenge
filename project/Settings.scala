@@ -15,6 +15,13 @@ object Settings {
       libraryDependencies ++= Seq(junit, scalaTest, scalaCheck)
     )
 
+  lazy val challengeSettings = commonSettings ++ Seq({
+
+    lazy val solution = taskKey[Unit]("Prints number of solutions for 7x7 board and figures Kx2, Qx2, Bx2, Kx1'")
+
+    fullRunTask(solution, Compile, "com.tkachuko.chess.challenge.Challenge")
+  })
+
   lazy val webSettings = commonSettings ++ Seq(
     libraryDependencies ++= Seq(akkaHTTP, pickle)
   )

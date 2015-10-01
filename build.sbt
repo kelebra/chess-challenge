@@ -13,7 +13,7 @@ lazy val domain = (crossProject.crossType(CrossType.Pure) in file("domain")).set
 lazy val domainJs = domain.js
 lazy val domainJvm = domain.jvm
 
-lazy val challenge = (project in file("challenge")).settings(commonSettings: _*).dependsOn(domainJvm)
+lazy val challenge = (project in file("challenge")).settings(challengeSettings: _*).dependsOn(domainJvm)
 
 lazy val frontend = (project in file("frontend"))
   .dependsOn(domainJs, messagesJs)

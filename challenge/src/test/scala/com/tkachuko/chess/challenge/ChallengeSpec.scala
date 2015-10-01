@@ -17,9 +17,5 @@ class ChallengeSpec extends WordSpec with Matchers {
 
       allDrawPositions(Rook :: Rook :: Knight :: Knight :: Knight :: Knight :: Nil, 4, 4).size shouldBe 8
     }
-
-    "be solved with 3063828 layouts for 7x7 board and figures (2 Kings, 2 Queens, 2 Bishops, 1 Knight)" in {
-      allDrawPositions(King :: King :: Queen :: Queen :: Bishop :: Bishop :: Knight :: Nil, 7, 7).size shouldBe 3063828
-    }
   }
 }
