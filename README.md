@@ -30,3 +30,12 @@ Oleksiis-MBP:chess-challenge kelebra$ sbt
 web Starting com.tkachuko.chess.web.Server.main()
 [success] Total time: 12 s, completed Sep 30, 2015 11:01:17 PM
 ```
+
+After that open your browser at http://localhost:8000. Sample screen below:
+![Screen Shot 2015-09-30 at 11.03.06 PM.png](https://bitbucket.org/repo/eexnX5/images/2486653687-Screen%20Shot%202015-09-30%20at%2011.03.06%20PM.png)
+
+And specify some layout:
+![Screen Shot 2015-09-30 at 11.05.20 PM.png](https://bitbucket.org/repo/eexnX5/images/302778401-Screen%20Shot%202015-09-30%20at%2011.05.20%20PM.png)
+
+See the result after clicking the button in the bottom of the form:
+![Screen Shot 2015-09-30 at 11.06.22 PM.png](https://bitbucket.org/repo/eexnX5/images/599180456-Screen%20Shot%202015-09-30%20at%2011.06.22%20PM.png)
