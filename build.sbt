@@ -16,7 +16,7 @@ lazy val domainJvm = domain.jvm
 lazy val challenge = (project in file("challenge")).settings(commonSettings: _*).dependsOn(domainJvm)
 
 lazy val frontend = (project in file("frontend"))
-  .dependsOn(domainJs)
+  .dependsOn(domainJs, messagesJs)
   .enablePlugins(ScalaJSPlugin)
   .settings(
     commonSettings
@@ -24,13 +24,14 @@ lazy val frontend = (project in file("frontend"))
       libraryDependencies ++= Seq(
         "org.scala-js" %%% "scalajs-dom" % "0.8.0",
         "com.lihaoyi" %%% "scalatags" % "0.4.5",
+        "com.lihaoyi" %%% "upickle" % "0.3.6",
         "com.lihaoyi" %% "utest" % "0.3.1"
       ),
       testFrameworks += new TestFramework("utest.runner.Framework")
     ): _*)
 
 lazy val web = (project in file("web"))
-  .dependsOn(domainJvm, challenge)
+  .dependsOn(domainJvm, challenge, messagesJvm)
   .settings(webSettings: _*)
   .settings(Revolver.settings: _*)
   .settings(
@@ -39,3 +40,8 @@ lazy val web = (project in file("web"))
         .map((f1, f2) => Seq(f1.data, f2.data)),
     watchSources <++= (watchSources in frontend)
   )
+
+lazy val messages = (crossProject.crossType(CrossType.Pure) in file("messages")).settings(commonSettings: _*).dependsOn(domain)
+
+lazy val messagesJvm = messages.jvm
+lazy val messagesJs = messages.js

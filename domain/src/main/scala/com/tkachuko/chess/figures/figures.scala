@@ -4,35 +4,57 @@ package object figures {
 
   type AttackRule = (Location, Location) => Boolean
 
-  abstract sealed class ChessFigure(alias: Char, attackRule: AttackRule) {
+  sealed trait ChessFigure {
 
-    def canAttack(from: Location): Location => Boolean = attackRule.curried(from)
+    val alias: Char
+
+    def attackRule(from: Location)(to: Location): Boolean
+
+    def canAttack(from: Location): Location => Boolean = attackRule(from)
 
     override def toString = alias.toString
   }
 
-  case object Bishop extends ChessFigure('B',
-    (from: Location, to: Location) => from.sharesDiagonalWith(to)
-  )
+  case object Bishop extends ChessFigure {
 
-  case object King extends ChessFigure('K', (from: Location, to: Location) => (
-    (from.sharesAdjacentColumnWith(to) && from.sharesRowWith(to)) ||
-      (from.sharesAdjacentRowWith(to) && from.sharesColumnWith(to))
-    ) ||
-    from.sharesDiagonalWith(to, 1)
-  )
+    val alias = 'B'
 
-  case object Knight extends ChessFigure('N', (from: Location, to: Location) =>
-    (from.hasDistanceInRows(to, 2) && from.hasDistanceInColumns(to, 1)) ||
-      (from.hasDistanceInRows(to, 1) && from.hasDistanceInColumns(to, 2))
-  )
+    def attackRule(from: Location)(to: Location) = from.sharesDiagonalWith(to)
+  }
 
-  case object Queen extends ChessFigure('Q', (from: Location, to: Location) =>
-    from.sharesDiagonalWith(to) || from.sharesRowWith(to) || from.sharesColumnWith(to)
-  )
+  case object King extends ChessFigure {
 
-  case object Rook extends ChessFigure('R', (from: Location, to: Location) =>
-    from.sharesRowWith(to) || from.sharesColumnWith(to)
-  )
+    val alias = 'K'
+
+    def attackRule(from: Location)(to: Location) = (
+      (from.sharesAdjacentColumnWith(to) && from.sharesRowWith(to)) ||
+        (from.sharesAdjacentRowWith(to) && from.sharesColumnWith(to))
+      ) ||
+      from.sharesDiagonalWith(to, 1)
+  }
+
+  case object Knight extends ChessFigure {
+
+    val alias = 'N'
+
+    def attackRule(from: Location)(to: Location) =
+      (from.hasDistanceInRows(to, 2) && from.hasDistanceInColumns(to, 1)) ||
+        (from.hasDistanceInRows(to, 1) && from.hasDistanceInColumns(to, 2))
+  }
+
+  case object Queen extends ChessFigure {
+
+    val alias = 'Q'
+
+    def attackRule(from: Location)(to: Location) =
+      from.sharesDiagonalWith(to) || from.sharesRowWith(to) || from.sharesColumnWith(to)
+  }
+
+  case object Rook extends ChessFigure {
+
+    val alias = 'R'
+
+    def attackRule(from: Location)(to: Location) = from.sharesRowWith(to) || from.sharesColumnWith(to)
+  }
 
 }

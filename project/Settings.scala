@@ -16,7 +16,7 @@ object Settings {
     )
 
   lazy val webSettings = commonSettings ++ Seq(
-    libraryDependencies ++= Seq(akkaHTTP)
+    libraryDependencies ++= Seq(akkaHTTP, pickle)
   )
 
   object Versions {
@@ -31,6 +31,7 @@ object Settings {
     val scalaCheck: ModuleID = "org.scalacheck" %% "scalacheck" % "1.12.5" % "test"
 
     val akkaHTTP: ModuleID = "com.typesafe.akka" %% "akka-http-experimental" % Versions.akkaHttp
+    val pickle: ModuleID = "com.lihaoyi" %% "upickle" % "0.3.6"
   }
 
 }
