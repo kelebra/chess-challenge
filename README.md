@@ -1,3 +1,5 @@
+# How to run: #
+
 Number of draw combinations for 2 Queens, 2 Kings, 2 Rooks, 2 Bishops and 1 Knight and 7x7 board:
 ```
 #!bash
@@ -39,3 +41,21 @@ And specify some layout:
 
 See the result after clicking the button in the bottom of the form:
 ![Screen Shot 2015-09-30 at 11.06.22 PM.png](https://bitbucket.org/repo/eexnX5/images/599180456-Screen%20Shot%202015-09-30%20at%2011.06.22%20PM.png)
+
+# Technology stack: #
+
+* sbt
+* akka-http
+* scala.js
+* scalatest
+* scalacheck
+
+# Project structure: #
+* challenge - implementation of algorithm
+* domain - entities needed for abstraction and design
+* frontend - scala.js module used for representation of boards and providing UI to specify input data for challenge such as figures layout and board size
+* messages - case classes to interact with web server from fronted module
+* web - simple web server in aka-http
+
+# General comments: #
+It is kind of shame that challenge is completed with usage of 4G of RAM, however this is necessary given the amount of boards algorithm have to store all the time. Moreover I should mention that algorithm is approximately 3 methods long and its maintainability and readability is on top. We could make use of akka to do things in parallel however it would involve more metrics and problems down the road. Moreover it is not a trivial task to parallel heuristic algorithm and also I was not sure that this was expected from me during the exercise. I am pretty much proud of the testing framework for behavior of figures, have a look at it too :)
